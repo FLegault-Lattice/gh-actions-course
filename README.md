@@ -33,3 +33,23 @@ There are many ways we can trigger Github workflows:
   - Run as a cron job
 
 ***This is just a sample the full documentation can be found [here](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)***
+
+# Workflow Runners
+- **Github-hosted (standard)**
+  - Managed service
+  - A VM is scoped to a job: steps share the VM, but jobs don't (by default, each job receives a clean VM instance)
+- **Self-Hosted**
+  - Run workflows on (almost) any infrastructure of your choice
+  - Full control over the VM infrastructure
+  - It's not managed, meaning we need to take care of OS patching, software updates, amoung other ops tasks
+  - Can be added at the repository, organization, or enterprise level
+  - Jobs do not necessarily have to run on clean instances
+
+## Pro-tips
+
+Keep the VM resources in mind, especially when running commands that rely on parallel execution (for example, running parallel jest tests).
+
+## Warning
+
+**Do not** use self-hosted runners in public repositories.
+upda
