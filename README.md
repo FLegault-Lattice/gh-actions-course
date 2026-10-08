@@ -1,5 +1,14 @@
 Repository containing all examples and notes for the Github Actions course.
 
+- [Learn the building blocks of Github Actions.](#learn-the-building-blocks-of-github-actions)
+- [Triggering workflows in mutliple ways](#triggering-workflows-in-mutliple-ways)
+- [Workflow Runners](#workflow-runners)
+  - [Pro-tips](#pro-tips)
+  - [Warning](#warning)
+- [Workflow Contexts](#workflow-contexts)
+  - [Example of Contexts](#example-of-contexts)
+
+
 # Learn the building blocks of Github Actions.
 - **Workflows:**
   - Are defined at the repository level
@@ -53,6 +62,19 @@ Keep the VM resources in mind, especially when running commands that rely on par
 
 **Do not** use self-hosted runners in public repositories.
 
+# Workflow Contexts
 
-## Test
-THis is a test PR
+Access information about runs, variables, jobs, and much more
+
+Github providfes multiple sources of data in different contexts so that we can easily provide all the necessary information to our workfloads
+
+## Example of Contexts
+
+| Context | Description |
+| --- | --- |
+| **github** | Commit SHA, Event name, Ref of branch or tag triggering the workflow |
+| **env** | Contains variable that have been defined in a workflow, job, or step. Cchanges based on which part of the workflow is executing |
+| **inputs** | Contains input properties passed via the keyword `with` to an action, to a reusable workflow, or to a manually triggered workflow | 
+| **vars** | Contains custom configuration variables set at the organization, repository, and environment level
+
+***This is just a sample the full documentation can be found [here](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts)***
