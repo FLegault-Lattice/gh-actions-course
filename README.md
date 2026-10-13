@@ -7,6 +7,8 @@ Repository containing all examples and notes for the Github Actions course.
   - [Warning](#warning)
 - [Workflow Contexts](#workflow-contexts)
   - [Example of Contexts](#example-of-contexts)
+- [Expressions](#expressions)
+  - [Expressions example](#expressions-example)
 
 
 # Learn the building blocks of Github Actions.
@@ -78,3 +80,38 @@ Github providfes multiple sources of data in different contexts so that we can e
 | **vars** | Contains custom configuration variables set at the organization, repository, and environment level
 
 ***This is just a sample the full documentation can be found [here](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts)***
+
+# Expressions
+
+Use dynamic values and expressions in your workflows
+
+- Can be used to reference information from multiple sources
+- Must use the `${{ <expression> }}` syntax
+- Can be any combination of
+  - **Literal values**
+    - Strings, numbers, booleans, null
+  - **Context values**
+    - Values passed via the many workflow contexts.
+  - **Functions**
+    - Built-in functions provided by Github Actions.
+- Support the use of functions and operators such as `!`, `<`, `>`, `!=`, `&&`, `||`, and many others.
+
+## Expressions example
+```yaml
+name: My NPM workflow
+on: [push, pull_request]
+
+jobs:
+  node-16-test:
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ github.event_name }} == "push"
+        run: |
+          echo "Triggered by a push event"
+          echo "Running on ${{ github.ref_name }}"
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 16
+        - run: npm ci
+        - run: npm test
+```
