@@ -147,3 +147,6 @@ Provides a set of functions that allow using the status of the workflow, previou
 - `always()`
 - `cancelled()`
   - `!cancelled()` can be used to execute jobs or steps even if previous jobsor steps failed, but prevent execution in case the workflow is cancelled
+ 
+
+---
