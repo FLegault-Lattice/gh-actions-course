@@ -9,6 +9,11 @@ Repository containing all examples and notes for the Github Actions course.
   - [Example of Contexts](#example-of-contexts)
 - [Expressions](#expressions)
   - [Expressions example](#expressions-example)
+- [Functions](#functions)
+  - [General purpse functions](#general-purpse-functions)
+    - [Examples](#examples)
+  - [Status check functions](#status-check-functions)
+    - [Examples](#examples-1)
 
 
 # Learn the building blocks of Github Actions.
@@ -115,3 +120,30 @@ jobs:
         - run: npm ci
         - run: npm test
 ```
+
+# Functions
+
+Out-of-the-box functions to model complex behavior
+
+## General purpse functions
+
+Provides a set of utility functions to interact with data from mutliple contexsts and model more complex behavior, such as more advanced control of the workflow and job execution
+
+### Examples
+- `contains()`
+- `startsWith()`
+- `endsWith()`
+- `fromJSON()`
+  - Can be used to convert variables from `string` to different data types
+- `toJSON()`
+
+## Status check functions
+
+Provides a set of functions that allow using the status of the workflow, previous jobs or steps to define whether a certain job or step should be excecuted
+
+### Examples
+- `success()`
+- `failure()`
+- `always()`
+- `cancelled()`
+  - `!cancelled()` can be used to execute jobs or steps even if previous jobsor steps failed, but prevent execution in case the workflow is cancelled
