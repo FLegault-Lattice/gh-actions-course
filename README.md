@@ -14,6 +14,8 @@ Repository containing all examples and notes for the Github Actions course.
     - [Examples](#examples)
   - [Status check functions](#status-check-functions)
     - [Examples](#examples-1)
+- [Controlloing the Execution Flow](#controlloing-the-execution-flow)
+  - [Sequential job execution via the `needs` key](#sequential-job-execution-via-the-needs-key)
 
 
 # Learn the building blocks of Github Actions.
@@ -147,3 +149,23 @@ Provides a set of functions that allow using the status of the workflow, previou
 - `always()`
 - `cancelled()`
   - `!cancelled()` can be used to execute jobs or steps even if previous jobsor steps failed, but prevent execution in case the workflow is cancelled
+
+# Controlloing the Execution Flow
+
+Execute jobs and steps conditionally, and set depdendencies between jobs
+
+## Sequential job execution via the `needs` key
+
+Jobs wait until their dependencies successfully excecute
+
+```yaml
+jobs:
+  job1:
+  job2:
+  job3:
+    needs:
+      - job1
+      - job2
+  job4:
+    needs: job1
+```
