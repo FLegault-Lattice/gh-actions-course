@@ -16,6 +16,9 @@ Repository containing all examples and notes for the Github Actions course.
     - [Examples](#examples-1)
 - [Controlloing the Execution Flow](#controlloing-the-execution-flow)
   - [Sequential job execution via the `needs` key](#sequential-job-execution-via-the-needs-key)
+- [Inputs](#inputs)
+  - [Github Action](#github-action)
+  - [Caller](#caller)
 
 
 # Learn the building blocks of Github Actions.
@@ -168,4 +171,34 @@ jobs:
       - job2
   job4:
     needs: job1
+```
+
+# Inputs
+
+Provide information to customize workflows and actions
+
+inputs enable us to request specific information from the workflow or action called and use this information at runtime.
+
+## Github Action
+```yaml
+inputs:
+  url:
+    description: '...'
+    required: true
+  max-trials:
+    description: '...'
+    required: false
+    default: '60'
+```
+
+## Caller
+```yaml
+jobs:
+  job1:
+    steps:
+      - name: Ping URL
+        uses: ping-url-example@v1
+        with:
+          url: https://www.google.com
+          max-trials: 10
 ```
