@@ -19,6 +19,7 @@ Repository containing all examples and notes for the Github Actions course.
 - [Inputs](#inputs)
   - [Github Action](#github-action)
   - [Caller](#caller)
+- [Outputs](#outputs)
 
 
 # Learn the building blocks of Github Actions.
@@ -201,4 +202,30 @@ jobs:
         with:
           url: https://www.google.com
           max-trials: 10
+```
+
+# Outputs
+
+Output data from jobs for later usage
+
+1. Define a step ID for the steps that produce outputs
+2. Echo key-value pairs to the `$GITHUB_OUTPUT` variable
+3. Mention the outputs in the `outputs` section of the job
+4. List the job as a dependency of jobs that need the output
+5. Access the output via the `needs` context
+
+```yaml
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    outputs:
+      name: ${{ steps.step1.outputs.NAME }}
+    steps:
+      - id: step1
+        run: echo "NAME=Lauro" >> "$GITHUB_OUTPUT"
+  goodbye:
+    runs-on: ubuntu-latest
+    needs: welcome
+    steps:
+      - run: echo "Bye, ${{ needs.welcome.outputs.name }}"
 ```
