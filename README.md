@@ -20,6 +20,9 @@ Repository containing all examples and notes for the Github Actions course.
   - [Github Action](#github-action)
   - [Caller](#caller)
 - [Outputs](#outputs)
+- [Caching](#caching)
+  - [Use-Case](#use-case)
+  - [Example](#example)
 
 
 # Learn the building blocks of Github Actions.
@@ -228,4 +231,32 @@ jobs:
     needs: welcome
     steps:
       - run: echo "Bye, ${{ needs.welcome.outputs.name }}"
+```
+
+# Caching
+
+Speed up workflow runs by caching stable files
+
+Caching allows us to store files and later retrieve them based on a key. Workflows can access the cache from ther branch or from the default branch.
+
+## Use-Case
+
+Cache depdencnies to speed up execution by avoiding always downloading and installing them
+
+## Example
+
+```yaml
+steps:
+  - uses: action/cache@v3
+    id: cache
+    with:
+      path: node_modules
+      key: ${{ hashFiles('**/package-lock.json') }}
+  - name: Install dependencies
+    if: steps.cache.outputs.cache-hit != 'true'
+    run: npm ci
+  - name: Lint & test
+    run: |
+      npm run lint
+      npm run test
 ```
