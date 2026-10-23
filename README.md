@@ -4,6 +4,8 @@ Repository containing all examples and notes for the GitHub Actions course.
 
 ## Table of Contents
 
+- [GitHub Actions Course](#github-actions-course)
+  - [Table of Contents](#table-of-contents)
 - [Learn the building blocks of GitHub Actions](#learn-the-building-blocks-of-github-actions)
 - [Triggering workflows in multiple ways](#triggering-workflows-in-multiple-ways)
 - [Workflow Runners](#workflow-runners)
@@ -27,6 +29,8 @@ Repository containing all examples and notes for the GitHub Actions course.
 - [Caching](#caching)
   - [Use-Case](#use-case)
   - [Example](#example)
+- [Artifacts](#artifacts)
+  - [Difference between Artifacts \& Caching](#difference-between-artifacts--caching)
 
 ---
 
@@ -287,3 +291,30 @@ steps:
       npm run lint
       npm run test
 ```
+
+---
+
+# Artifacts
+
+Share data between jobs and store data after workflows have completed
+
+## Difference between Artifacts & Caching
+
+**Artifacts**
+
+- Stored for up to **90 days**
+- Managed via two actions
+  - `upload-artifacts`
+  - `download-artifacts`
+- Recomended when the stored files are likely to be accessed outside the workflow, for example
+  - Build outputs
+  - Test results
+  - Logs
+
+**Caching**
+
+- Stored for up to **7 days**
+- Managed via a single action
+  - `cache`
+- Recommended when the stored files are likely to be accessed only within the workflow, for example
+  - Build dependencies
