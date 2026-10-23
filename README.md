@@ -119,15 +119,15 @@ jobs:
   node-16-test:
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ github.event_name }} == "push"
+      - if: github.event_name == 'push'
         run: |
           echo "Triggered by a push event"
           echo "Running on ${{ github.ref_name }}"
-        - uses: actions/setup-node@v3
-          with:
-            node-version: 16
-        - run: npm ci
-        - run: npm test
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm test
 ```
 
 # Functions
@@ -247,7 +247,7 @@ Cache dependencies to speed up execution by avoiding always downloading and inst
 
 ```yaml
 steps:
-  - uses: action/cache@v3
+  - uses: actions/cache@v3
     id: cache
     with:
       path: node_modules
