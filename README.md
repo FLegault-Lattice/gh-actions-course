@@ -1,7 +1,7 @@
 Repository containing all examples and notes for the Github Actions course.
 
 - [Learn the building blocks of Github Actions.](#learn-the-building-blocks-of-github-actions)
-- [Triggering workflows in mutliple ways](#triggering-workflows-in-mutliple-ways)
+- [Triggering workflows in multiple ways](#triggering-workflows-in-multiple-ways)
 - [Workflow Runners](#workflow-runners)
   - [Pro-tips](#pro-tips)
   - [Warning](#warning)
@@ -10,11 +10,11 @@ Repository containing all examples and notes for the Github Actions course.
 - [Expressions](#expressions)
   - [Expressions example](#expressions-example)
 - [Functions](#functions)
-  - [General purpse functions](#general-purpse-functions)
+  - [General purpose functions](#general-purpose-functions)
     - [Examples](#examples)
   - [Status check functions](#status-check-functions)
     - [Examples](#examples-1)
-- [Controlloing the Execution Flow](#controlloing-the-execution-flow)
+- [Controlling the Execution Flow](#controlloing-the-execution-flow)
   - [Sequential job execution via the `needs` key](#sequential-job-execution-via-the-needs-key)
 - [Inputs](#inputs)
   - [Github Action](#github-action)
@@ -40,7 +40,7 @@ Repository containing all examples and notes for the Github Actions course.
   - Define the actual script or **Github Action** that will be executed
   - Run sequentially by default
 
-# Triggering workflows in mutliple ways
+# Triggering workflows in multiple ways
 There are many ways we can trigger Github workflows:
 
 - **Repository events:**
@@ -66,7 +66,7 @@ There are many ways we can trigger Github workflows:
 - **Self-Hosted**
   - Run workflows on (almost) any infrastructure of your choice
   - Full control over the VM infrastructure
-  - It's not managed, meaning we need to take care of OS patching, software updates, amoung other ops tasks
+  - It's not managed, meaning we need to take care of OS patching, software updates, among other ops tasks
   - Can be added at the repository, organization, or enterprise level
   - Jobs do not necessarily have to run on clean instances
 
@@ -82,14 +82,14 @@ Keep the VM resources in mind, especially when running commands that rely on par
 
 Access information about runs, variables, jobs, and much more
 
-Github providfes multiple sources of data in different contexts so that we can easily provide all the necessary information to our workfloads
+Github provides multiple sources of data in different contexts so that we can easily provide all the necessary information to our workloads
 
 ## Example of Contexts
 
 | Context | Description |
 | --- | --- |
 | **github** | Commit SHA, Event name, Ref of branch or tag triggering the workflow |
-| **env** | Contains variable that have been defined in a workflow, job, or step. Cchanges based on which part of the workflow is executing |
+| **env** | Contains variable that have been defined in a workflow, job, or step. Changes based on which part of the workflow is executing |
 | **inputs** | Contains input properties passed via the keyword `with` to an action, to a reusable workflow, or to a manually triggered workflow | 
 | **vars** | Contains custom configuration variables set at the organization, repository, and environment level
 
@@ -134,9 +134,9 @@ jobs:
 
 Out-of-the-box functions to model complex behavior
 
-## General purpse functions
+## General purpose functions
 
-Provides a set of utility functions to interact with data from mutliple contexsts and model more complex behavior, such as more advanced control of the workflow and job execution
+Provides a set of utility functions to interact with data from multiple contexts and model more complex behavior, such as more advanced control of the workflow and job execution
 
 ### Examples
 - `contains()`
@@ -148,22 +148,22 @@ Provides a set of utility functions to interact with data from mutliple contexst
 
 ## Status check functions
 
-Provides a set of functions that allow using the status of the workflow, previous jobs or steps to define whether a certain job or step should be excecuted
+Provides a set of functions that allow using the status of the workflow, previous jobs or steps to define whether a certain job or step should be executed
 
 ### Examples
 - `success()`
 - `failure()`
 - `always()`
 - `cancelled()`
-  - `!cancelled()` can be used to execute jobs or steps even if previous jobsor steps failed, but prevent execution in case the workflow is cancelled
+  - `!cancelled()` can be used to execute jobs or steps even if previous jobs or steps failed, but prevent execution in case the workflow is cancelled
 
-# Controlloing the Execution Flow
+# Controlling the Execution Flow
 
-Execute jobs and steps conditionally, and set depdendencies between jobs
+Execute jobs and steps conditionally, and set dependencies between jobs
 
 ## Sequential job execution via the `needs` key
 
-Jobs wait until their dependencies successfully excecute
+Jobs wait until their dependencies successfully execute
 
 ```yaml
 jobs:
@@ -237,11 +237,11 @@ jobs:
 
 Speed up workflow runs by caching stable files
 
-Caching allows us to store files and later retrieve them based on a key. Workflows can access the cache from ther branch or from the default branch.
+Caching allows us to store files and later retrieve them based on a key. Workflows can access the cache from another branch or from the default branch.
 
 ## Use-Case
 
-Cache depdencnies to speed up execution by avoiding always downloading and installing them
+Cache dependencies to speed up execution by avoiding always downloading and installing them
 
 ## Example
 
