@@ -1,6 +1,10 @@
-Repository containing all examples and notes for the Github Actions course.
+# GitHub Actions Course
 
-- [Learn the building blocks of Github Actions.](#learn-the-building-blocks-of-github-actions)
+Repository containing all examples and notes for the GitHub Actions course.
+
+## Table of Contents
+
+- [Learn the building blocks of GitHub Actions](#learn-the-building-blocks-of-github-actions)
 - [Triggering workflows in multiple ways](#triggering-workflows-in-multiple-ways)
 - [Workflow Runners](#workflow-runners)
   - [Pro-tips](#pro-tips)
@@ -14,90 +18,98 @@ Repository containing all examples and notes for the Github Actions course.
     - [Examples](#examples)
   - [Status check functions](#status-check-functions)
     - [Examples](#examples-1)
-- [Controlling the Execution Flow](#controlloing-the-execution-flow)
+- [Controlling the Execution Flow](#controlling-the-execution-flow)
   - [Sequential job execution via the `needs` key](#sequential-job-execution-via-the-needs-key)
 - [Inputs](#inputs)
-  - [Github Action](#github-action)
+  - [GitHub Action](#github-action)
   - [Caller](#caller)
 - [Outputs](#outputs)
 - [Caching](#caching)
   - [Use-Case](#use-case)
   - [Example](#example)
 
+---
 
-# Learn the building blocks of Github Actions.
-- **Workflows:**
-  - Are defined at the repository level
-  - Define which triggers actually start the workflow
-  - Are composed of one or more jobs
-- **Jobs:**
-  - Are defined at the workflow level
-  - Define in which execution environment they are run
-  - Are composed of one or more steps
-  - Run in parallel by default
-- **Steps:**
-  - Are defined at the job level
-  - Define the actual script or **Github Action** that will be executed
-  - Run sequentially by default
+# Learn the building blocks of GitHub Actions
+
+| Building block | Defined at | Responsibilities | Default behavior |
+| --- | --- | --- | --- |
+| **Workflows** | Repository level | Define which triggers start the workflow; composed of one or more jobs | N/A |
+| **Jobs** | Workflow level | Define the execution environment they run in; composed of one or more steps | Run in parallel |
+| **Steps** | Job level | Define the actual script or **GitHub Action** to execute | Run sequentially |
+
+---
 
 # Triggering workflows in multiple ways
-There are many ways we can trigger Github workflows:
 
-- **Repository events:**
-  - **push:** Triggered when someone pushes to the repo
-  - **issues:** Triggered by a variety of events related to issues
-  - **pull_request:** Triggered by a variety of events related to PRs
-  - **pull_request_review:** Triggered by a variety of events related to PR reviews (submitting, editing, deleting)
-  - **fork:** Triggered when your repository is forked
+There are many ways to trigger GitHub workflows:
+
+- **Repository events**
+  - `push`: Triggered when someone pushes to the repository
+  - `issues`: Triggered by a variety of events related to issues
+  - `pull_request`: Triggered by a variety of events related to PRs
+  - `pull_request_review`: Triggered by a variety of events related to PR reviews (submitting, editing, deleting)
+  - `fork`: Triggered when the repository is forked
   - ...
-- **Manual trigger:**
-  - **Triggered via the UI:** Triggered from the **Actions** tab in Github
-  - **Triggered via an API call:** Triggered via Github's REST API
-  - **Triggered from another workflow:** Triggered from within another workflow
-- **Schedule:**
-  - Run as a cron job
+- **Manual trigger**
+  - **Via the UI:** Triggered from the **Actions** tab in GitHub
+  - **Via an API call:** Triggered through GitHub's REST API
+  - **From another workflow:** Triggered from within another workflow
+- **Schedule**
+  - Runs as a cron job
 
-***This is just a sample the full documentation can be found [here](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)***
+> [!NOTE]
+> This is just a sample. The full documentation can be found [here](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows).
+
+---
 
 # Workflow Runners
-- **Github-hosted (standard)**
+
+- **GitHub-hosted (standard)**
   - Managed service
-  - A VM is scoped to a job: steps share the VM, but jobs don't (by default, each job receives a clean VM instance)
-- **Self-Hosted**
+  - A VM is scoped to a job: steps share the VM, but jobs do not (by default, each job receives a clean VM instance)
+- **Self-hosted**
   - Run workflows on (almost) any infrastructure of your choice
   - Full control over the VM infrastructure
-  - It's not managed, meaning we need to take care of OS patching, software updates, among other ops tasks
+  - Not managed, meaning we need to take care of OS patching, software updates, among other ops tasks
   - Can be added at the repository, organization, or enterprise level
   - Jobs do not necessarily have to run on clean instances
 
 ## Pro-tips
 
-Keep the VM resources in mind, especially when running commands that rely on parallel execution (for example, running parallel jest tests).
+> [!TIP]
+> Keep the VM resources in mind, especially when running commands that rely on parallel execution (for example, running parallel jest tests).
 
 ## Warning
 
-**Do not** use self-hosted runners in public repositories.
+> [!WARNING]
+> **Do not** use self-hosted runners in public repositories.
+
+---
 
 # Workflow Contexts
 
-Access information about runs, variables, jobs, and much more
+Access information about runs, variables, jobs, and much more.
 
-Github provides multiple sources of data in different contexts so that we can easily provide all the necessary information to our workloads
+GitHub provides multiple sources of data in different contexts so that we can easily provide all the necessary information to our workloads.
 
 ## Example of Contexts
 
 | Context | Description |
 | --- | --- |
-| **github** | Commit SHA, Event name, Ref of branch or tag triggering the workflow |
-| **env** | Contains variable that have been defined in a workflow, job, or step. Changes based on which part of the workflow is executing |
-| **inputs** | Contains input properties passed via the keyword `with` to an action, to a reusable workflow, or to a manually triggered workflow | 
-| **vars** | Contains custom configuration variables set at the organization, repository, and environment level
+| **github** | Commit SHA, event name, ref of the branch or tag triggering the workflow |
+| **env** | Contains variables that have been defined in a workflow, job, or step. Changes based on which part of the workflow is executing |
+| **inputs** | Contains input properties passed via the keyword `with` to an action, to a reusable workflow, or to a manually triggered workflow |
+| **vars** | Contains custom configuration variables set at the organization, repository, and environment level |
 
-***This is just a sample the full documentation can be found [here](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts)***
+> [!NOTE]
+> This is just a sample. The full documentation can be found [here](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts).
+
+---
 
 # Expressions
 
-Use dynamic values and expressions in your workflows
+Use dynamic values and expressions in your workflows.
 
 - Can be used to reference information from multiple sources
 - Must use the `${{ <expression> }}` syntax
@@ -105,12 +117,13 @@ Use dynamic values and expressions in your workflows
   - **Literal values**
     - Strings, numbers, booleans, null
   - **Context values**
-    - Values passed via the many workflow contexts.
+    - Values passed via the many workflow contexts
   - **Functions**
-    - Built-in functions provided by Github Actions.
-- Support the use of functions and operators such as `!`, `<`, `>`, `!=`, `&&`, `||`, and many others.
+    - Built-in functions provided by GitHub Actions
+- Support the use of functions and operators such as `!`, `<`, `>`, `!=`, `&&`, `||`, and many others
 
 ## Expressions example
+
 ```yaml
 name: My NPM workflow
 on: [push, pull_request]
@@ -130,15 +143,18 @@ jobs:
       - run: npm test
 ```
 
+---
+
 # Functions
 
-Out-of-the-box functions to model complex behavior
+Out-of-the-box functions to model complex behavior.
 
 ## General purpose functions
 
-Provides a set of utility functions to interact with data from multiple contexts and model more complex behavior, such as more advanced control of the workflow and job execution
+Provides a set of utility functions to interact with data from multiple contexts and model more complex behavior, such as more advanced control of the workflow and job execution.
 
 ### Examples
+
 - `contains()`
 - `startsWith()`
 - `endsWith()`
@@ -148,22 +164,25 @@ Provides a set of utility functions to interact with data from multiple contexts
 
 ## Status check functions
 
-Provides a set of functions that allow using the status of the workflow, previous jobs or steps to define whether a certain job or step should be executed
+Provides a set of functions that allow using the status of the workflow, previous jobs, or steps to define whether a certain job or step should be executed.
 
 ### Examples
+
 - `success()`
 - `failure()`
 - `always()`
 - `cancelled()`
   - `!cancelled()` can be used to execute jobs or steps even if previous jobs or steps failed, but prevent execution in case the workflow is cancelled
 
+---
+
 # Controlling the Execution Flow
 
-Execute jobs and steps conditionally, and set dependencies between jobs
+Execute jobs and steps conditionally, and set dependencies between jobs.
 
 ## Sequential job execution via the `needs` key
 
-Jobs wait until their dependencies successfully execute
+Jobs wait until their dependencies successfully execute.
 
 ```yaml
 jobs:
@@ -177,13 +196,16 @@ jobs:
     needs: job1
 ```
 
+---
+
 # Inputs
 
-Provide information to customize workflows and actions
+Provide information to customize workflows and actions.
 
-inputs enable us to request specific information from the workflow or action called and use this information at runtime.
+Inputs enable us to request specific information from the workflow or action called and use this information at runtime.
 
-## Github Action
+## GitHub Action
+
 ```yaml
 inputs:
   url:
@@ -196,6 +218,7 @@ inputs:
 ```
 
 ## Caller
+
 ```yaml
 jobs:
   job1:
@@ -207,9 +230,11 @@ jobs:
           max-trials: 10
 ```
 
+---
+
 # Outputs
 
-Output data from jobs for later usage
+Output data from jobs for later usage.
 
 1. Define a step ID for the steps that produce outputs
 2. Echo key-value pairs to the `$GITHUB_OUTPUT` variable
@@ -233,15 +258,17 @@ jobs:
       - run: echo "Bye, ${{ needs.welcome.outputs.name }}"
 ```
 
+---
+
 # Caching
 
-Speed up workflow runs by caching stable files
+Speed up workflow runs by caching stable files.
 
 Caching allows us to store files and later retrieve them based on a key. Workflows can access the cache from another branch or from the default branch.
 
 ## Use-Case
 
-Cache dependencies to speed up execution by avoiding always downloading and installing them
+Cache dependencies to speed up execution by avoiding always downloading and installing them.
 
 ## Example
 
