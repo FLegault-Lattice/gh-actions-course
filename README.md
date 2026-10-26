@@ -31,6 +31,9 @@ Repository containing all examples and notes for the GitHub Actions course.
   - [Example](#example)
 - [Artifacts](#artifacts)
   - [Difference between Artifacts \& Caching](#difference-between-artifacts--caching)
+- [Matrices](#matrices)
+  - [Matrix example](#matrix-example)
+    - [Resulting jobs](#resulting-jobs)
 
 ---
 
@@ -318,3 +321,50 @@ Share data between jobs and store data after workflows have completed
   - `cache`
 - Recommended when the stored files are likely to be accessed only within the workflow, for example
   - Build dependencies
+
+---
+
+# Matrices
+
+Run several variations of the same job.
+
+- Defined via the `strategy.matrix` key of a job
+- A job is created for every combination of the values provided
+- Values can be accessed via the `matrix` context
+
+## Matrix example
+
+```yaml
+name: My NPM package workflow
+on: push
+
+jobs:
+  backwards-compatibility:
+    name: ${{ matrix.os }}-${{ matrix.node }}
+    strategy:
+      matrix:
+        node: [14, 16, 18]
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+```
+
+### Resulting jobs
+
+The workflow above creates nine jobs, named after the `name` key:
+
+- ubuntu-latest-14
+- ubuntu-latest-16
+- ubuntu-latest-18
+- macos-latest-14
+- macos-latest-16
+- macos-latest-18
+- windows-latest-14
+- windows-latest-16
+- windows-latest-18
