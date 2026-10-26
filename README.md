@@ -332,6 +332,12 @@ Run several variations of the same job.
 - A job is created for every combination of the values provided
 - Values can be accessed via the `matrix` context
 
+> [!NOTE]
+> **Use-case:** Run test suits in parallel in multiple Node version before publising an NPM package to ensure backward compatibility.
+
+> [!WARNING]
+> Each executed jobs counts toward billing purposes. A matrix generating 9 jobs of 3 minutes each will lead to 27 minutes of billed time.
+
 ## Matrix example
 
 ```yaml
