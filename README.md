@@ -34,6 +34,9 @@ Repository containing all examples and notes for the GitHub Actions course.
 - [Matrices](#matrices)
   - [Matrix example](#matrix-example)
     - [Resulting jobs](#resulting-jobs)
+- [Environments](#environments)
+  - [Protection rules](#protection-rules)
+  - [Environments example](#environments-example)
 
 ---
 
@@ -374,3 +377,43 @@ The workflow above creates nine jobs, named after the `name` key:
 - windows-latest-14
 - windows-latest-16
 - windows-latest-18
+
+
+---
+
+# Environments
+
+Target specific deployment environments with their own rules, secrets, and variables.
+
+- Defined at the repository level (**Settings > Environments**), for example `development`, `staging`, and `production`
+- Referenced by a job via the `environment` key
+- A job referencing an environment does not start until all of the environment's protection rules pass
+- Secrets and variables defined in an environment are only available to jobs that reference it
+
+## Protection rules
+
+- **Required reviewers**: Up to six people or teams must approve before the job runs
+- **Wait timer**: Delay the job by a set amount of time after it is triggered
+- **Deployment branches and tags**: Restrict which branches or tags can deploy to the environment
+- **Custom deployment protection rules**: Gate deployments using third-party integrations
+
+> [!NOTE]
+> Environment secrets take precedence over repository and organization secrets with the same name. The same applies to variables accessed via the `vars` context.
+
+## Environments example
+
+```yaml
+on:
+  push:
+    branches: main
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - run: echo "Hi, ${{ vars.FIRST_NAME }}"
+```
+
+> [!WARNING]
+> Required reviewers, wait timers, and branch restrictions are only available for private repositories on paid plans. For pricing details, please contact the sales team.
